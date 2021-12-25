@@ -1,14 +1,9 @@
-import * as React from 'react';
-import {
-  Box,
-  Container,
-  Divider,
-  Grid,
-  Paper,
-  Typography,
-} from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
-const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
+
+import CalendarService from '../services/calendar.service';
+
 const hours = [
   '1 AM',
   '2 AM',
@@ -36,19 +31,25 @@ const hours = [
   '12 AM',
 ];
 
-const WeekView = () => {
+const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
+  const [week, setWeek] = useState<Date[]>([]);
+
+  useEffect(() => {
+    setWeek(CalendarService.getWeekByFirstDay(firstDayOfWeek));
+  }, [firstDayOfWeek]);
+
   return (
-    <Container fixed>
+    <>
       <Grid
         container
         columns={100}
         sx={{ position: 'sticky', background: '#fff', top: 0, zIndex: 1 }}
       >
         <Grid item xs={6}></Grid>
-        <Divider orientation="vertical" flexItem></Divider>
-        {weekdays.map((weekday) => {
+        <Divider orientation='vertical' flexItem></Divider>
+        {week.map((weekday) => {
           return (
-            <>
+            <React.Fragment key={weekday.getDay()}>
               <Grid item xs={13}>
                 <Typography
                   component={'div'}
@@ -59,27 +60,29 @@ const WeekView = () => {
                     color: 'gray',
                   }}
                 >
-                  {weekday}
+                  {CalendarService.getWeekday(weekday)}
                 </Typography>
                 <Box
-                  component="h4"
+                  component='h4'
                   sx={{
-                    bgcolor: 'primary.main',
+                    bgcolor: CalendarService.isToday(weekday)
+                      ? 'primary.main'
+                      : '',
                     width: 40,
                     height: 40,
                     lineHeight: '40px',
                     textAlign: 'center',
                     borderRadius: '50%',
                     margin: '10px auto',
-                    color: '#fff',
+                    color: CalendarService.isToday(weekday) ? '#fff' : '',
                   }}
                 >
-                  10
+                  {weekday.getDate()}
                 </Box>
                 <Divider />
               </Grid>
-              <Divider orientation="vertical" flexItem></Divider>
-            </>
+              <Divider orientation='vertical' flexItem></Divider>
+            </React.Fragment>
           );
         })}
       </Grid>
@@ -88,9 +91,9 @@ const WeekView = () => {
           <Paper sx={{ height: 10 }} elevation={0}></Paper>
           {hours.map((hour) => {
             return (
-              <>
+              <React.Fragment key={hour}>
                 <Paper sx={{ height: 10 }} elevation={0}></Paper>
-                <Divider textAlign="left" style={{ marginTop: 9 }}>
+                <Divider textAlign='left' style={{ marginTop: 9 }}>
                   <Typography
                     component={'span'}
                     style={{ fontSize: 12, color: 'gray' }}
@@ -98,18 +101,18 @@ const WeekView = () => {
                     {hour}
                   </Typography>
                 </Divider>
-              </>
+              </React.Fragment>
             );
           })}
         </Grid>
-        <Divider orientation="vertical" flexItem></Divider>
-        {weekdays.map((weekday) => {
+        <Divider orientation='vertical' flexItem></Divider>
+        {week.map((weekday) => {
           return (
-            <>
+            <React.Fragment key={weekday.getDay()}>
               <Grid item xs={13}>
                 {hours.map((hour) => {
                   return (
-                    <>
+                    <React.Fragment key={hour}>
                       <Paper
                         elevation={0}
                         style={{ lineHeight: '40px', fontSize: 12 }}
@@ -117,16 +120,16 @@ const WeekView = () => {
                         {hour}
                       </Paper>
                       <Divider />
-                    </>
+                    </React.Fragment>
                   );
                 })}
               </Grid>
-              <Divider orientation="vertical" flexItem></Divider>
-            </>
+              <Divider orientation='vertical' flexItem></Divider>
+            </React.Fragment>
           );
         })}
       </Grid>
-    </Container>
+    </>
   );
 };
 
