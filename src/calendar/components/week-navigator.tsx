@@ -7,7 +7,7 @@ import {
   Today,
 } from '@mui/icons-material';
 
-import CalendarService from '../services/calendar.service';
+import CalendarService from '../services/calendar-service';
 
 const WeekNavigator: React.FC<{
   firstDayOfWeek: Date;

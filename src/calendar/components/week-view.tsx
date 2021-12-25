@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
 
-import CalendarService from '../services/calendar.service';
+import CalendarService from '../services/calendar-service';
 
 const hours = [
   '1 AM',
