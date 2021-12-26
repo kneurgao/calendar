@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
 
 import CalendarService from '../services/calendar-service';
+import { CalendarEvent } from '../models/calendar-event';
 
 const hours = [
   '1 AM',
@@ -31,12 +32,19 @@ const hours = [
   '12 AM',
 ];
 
-const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
+const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
+  firstDayOfWeek,
+  events,
+}) => {
   const [week, setWeek] = useState<Date[]>([]);
 
   useEffect(() => {
     setWeek(CalendarService.getWeekByFirstDay(firstDayOfWeek));
   }, [firstDayOfWeek]);
+
+  useEffect(() => {
+    console.log(events);
+  }, [events]);
 
   return (
     <>
@@ -49,7 +57,14 @@ const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
         {week.map((weekday) => {
           return (
             <React.Fragment key={weekday.getDay()}>
-              <Grid item xs={10} sx={{ borderBottom: '1px solid lightgray', borderRight: '1px solid lightgray' }}>
+              <Grid
+                item
+                xs={10}
+                sx={{
+                  borderBottom: '1px solid lightgray',
+                  borderRight: '1px solid lightgray',
+                }}
+              >
                 <Typography
                   component={'div'}
                   style={{
@@ -62,7 +77,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
                   {CalendarService.getWeekday(weekday)}
                 </Typography>
                 <Box
-                  component='h4'
+                  component="h4"
                   sx={{
                     bgcolor: CalendarService.isToday(weekday)
                       ? 'primary.main'
@@ -90,7 +105,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
             return (
               <React.Fragment key={hour}>
                 <Paper sx={{ height: 10 }} elevation={0}></Paper>
-                <Divider textAlign='left' style={{ marginTop: 9 }}>
+                <Divider textAlign="left" style={{ marginTop: 9 }}>
                   <Typography
                     component={'span'}
                     style={{ fontSize: 12, color: 'gray' }}
@@ -112,7 +127,11 @@ const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
                       <Paper
                         elevation={0}
                         square={true}
-                        style={{ lineHeight: '40px', fontSize: 12, borderBottom: '1px solid lightgray' }}
+                        style={{
+                          lineHeight: '40px',
+                          fontSize: 12,
+                          borderBottom: '1px solid lightgray',
+                        }}
                       >
                         &nbsp;
                       </Paper>
