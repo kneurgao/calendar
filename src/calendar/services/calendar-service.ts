@@ -15,11 +15,13 @@ const getLastDayOfWeek = (date?: Date) => {
 };
 
 const getFirstDayOfPrevWeek = (date: Date) => {
-  return new Date(date.setDate(date.getDate() - 7));
+  const firstDayOfPrevWeek = new Date(date);
+  return new Date(firstDayOfPrevWeek.setDate(firstDayOfPrevWeek.getDate() - 7));
 };
 
 const getFirstDayOfNextWeek = (date: Date) => {
-  return new Date(date.setDate(date.getDate() + 7));
+  const firstDayOfNextWeek = new Date(date);
+  return new Date(firstDayOfNextWeek.setDate(firstDayOfNextWeek.getDate() + 7));
 };
 
 const getMonthYearByDate = (date: Date) => {
@@ -62,6 +64,7 @@ const isToday = (date: Date) => {
 
 const CalendarService = {
   getFirstDayOfWeek,
+  getLastDayOfWeek,
   getFirstDayOfPrevWeek,
   getFirstDayOfNextWeek,
   getMonthYearByDate,
