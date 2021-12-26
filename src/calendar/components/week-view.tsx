@@ -42,15 +42,14 @@ const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
     <>
       <Grid
         container
-        columns={100}
+        columns={75}
         sx={{ position: 'sticky', background: '#fff', top: 0, zIndex: 1 }}
       >
-        <Grid item xs={6}></Grid>
-        <Divider orientation='vertical' flexItem></Divider>
+        <Grid item xs={5} sx={{ borderRight: '1px solid lightgray' }}></Grid>
         {week.map((weekday) => {
           return (
             <React.Fragment key={weekday.getDay()}>
-              <Grid item xs={13}>
+              <Grid item xs={10} sx={{ borderBottom: '1px solid lightgray', borderRight: '1px solid lightgray' }}>
                 <Typography
                   component={'div'}
                   style={{
@@ -79,15 +78,13 @@ const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
                 >
                   {weekday.getDate()}
                 </Box>
-                <Divider />
               </Grid>
-              <Divider orientation='vertical' flexItem></Divider>
             </React.Fragment>
           );
         })}
       </Grid>
-      <Grid container columns={100}>
-        <Grid item xs={6}>
+      <Grid container columns={75}>
+        <Grid item xs={5} sx={{ borderRight: '1px solid lightgray' }}>
           <Paper sx={{ height: 10 }} elevation={0}></Paper>
           {hours.map((hour) => {
             return (
@@ -105,26 +102,24 @@ const WeekView: React.FC<{ firstDayOfWeek: Date }> = ({ firstDayOfWeek }) => {
             );
           })}
         </Grid>
-        <Divider orientation='vertical' flexItem></Divider>
         {week.map((weekday) => {
           return (
             <React.Fragment key={weekday.getDay()}>
-              <Grid item xs={13}>
+              <Grid item xs={10} sx={{ borderRight: '1px solid lightgray' }}>
                 {hours.map((hour) => {
                   return (
                     <React.Fragment key={hour}>
                       <Paper
                         elevation={0}
-                        style={{ lineHeight: '40px', fontSize: 12 }}
+                        square={true}
+                        style={{ lineHeight: '40px', fontSize: 12, borderBottom: '1px solid lightgray' }}
                       >
-                        {hour}
+                        &nbsp;
                       </Paper>
-                      <Divider />
                     </React.Fragment>
                   );
                 })}
               </Grid>
-              <Divider orientation='vertical' flexItem></Divider>
             </React.Fragment>
           );
         })}
