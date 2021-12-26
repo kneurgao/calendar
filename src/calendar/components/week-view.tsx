@@ -4,6 +4,7 @@ import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
 
 import CalendarService from '../services/calendar-service';
 import { CalendarEvent } from '../models/calendar-event';
+import { EventElement } from '../models/event-element';
 
 const hours = [
   '1 AM',
@@ -37,14 +38,61 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   events,
 }) => {
   const [week, setWeek] = useState<Date[]>([]);
+  const [dateWiseEventElements, setDateWiseEventElements] =
+    useState<Map<string, EventElement[]>>();
 
   useEffect(() => {
     setWeek(CalendarService.getWeekByFirstDay(firstDayOfWeek));
   }, [firstDayOfWeek]);
 
   useEffect(() => {
-    console.log(events);
+    const eventElementMap = new Map<string, EventElement[]>();
+    events.forEach((event, index) => {
+      const eventDate = new Date(event.startTime).toDateString();
+      let existingEventElements = eventElementMap.get(eventDate);
+      if (!existingEventElements) {
+        existingEventElements = [];
+        eventElementMap.set(eventDate, existingEventElements);
+      }
+      existingEventElements.push(getEventElement(event, new Date(eventDate)));
+    });
+    setDateWiseEventElements(eventElementMap);
   }, [events]);
+
+  const getEventElement = (
+    event: CalendarEvent,
+    eventDate: Date
+  ): EventElement => {
+    const durationInMins =
+      (new Date(event.endTime).getTime() -
+        new Date(event.startTime).getTime()) /
+      1000 /
+      60;
+    const timeSinceMidnight =
+      (new Date(event.startTime).getTime() - eventDate.getTime()) / 1000 / 60;
+
+    const textStyle =
+      durationInMins > 15
+        ? {
+            fontSize: 12,
+            fontWeight: 500,
+            lineHeight: 1.5,
+          }
+        : {
+            fontSize: 11,
+            fontWeight: 400,
+            lineHeight: 1.2,
+          };
+    return {
+      title: event.title,
+      style: {
+        width: '135px',
+        height: Math.max((40 / 60) * durationInMins, 12),
+        marginTop: (40 / 60) * timeSinceMidnight + 'px',
+      },
+      textStyle,
+    } as EventElement;
+  };
 
   return (
     <>
@@ -105,7 +153,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
             return (
               <React.Fragment key={hour}>
                 <Paper sx={{ height: 10 }} elevation={0}></Paper>
-                <Divider textAlign="left" style={{ marginTop: 9 }}>
+                <Divider textAlign="left" style={{ marginTop: 8 }}>
                   <Typography
                     component={'span'}
                     style={{ fontSize: 12, color: 'gray' }}
@@ -121,6 +169,33 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
           return (
             <React.Fragment key={weekday.getDay()}>
               <Grid item xs={10} sx={{ borderRight: '1px solid lightgray' }}>
+                {dateWiseEventElements
+                  ?.get(weekday.toDateString())
+                  ?.map((eventElement) => {
+                    return (
+                      <Paper
+                        elevation={1}
+                        sx={{
+                          color: '#fff',
+                          bgcolor: '#039be5',
+                          position: 'absolute',
+                          marginBottom: '2px',
+                          ...eventElement.style,
+                        }}
+                      >
+                        <Typography
+                          component={'h6'}
+                          style={{
+                            padding: '0 4px',
+                            ...eventElement.textStyle,
+                          }}
+                        >
+                          {eventElement.title}
+                        </Typography>
+                      </Paper>
+                    );
+                  })}
+
                 {hours.map((hour) => {
                   return (
                     <React.Fragment key={hour}>
@@ -128,7 +203,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
                         elevation={0}
                         square={true}
                         style={{
-                          lineHeight: '40px',
+                          lineHeight: '39px',
                           fontSize: 12,
                           borderBottom: '1px solid lightgray',
                         }}
