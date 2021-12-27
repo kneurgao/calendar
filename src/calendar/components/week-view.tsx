@@ -63,7 +63,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   useEffect(() => {
     const updateCurrentTimeline = () => {
       const minutesSinceMidnight = CalendarService.getMinutesSinceMidnight();
-      setCurrentTimeline(40 / 60 * minutesSinceMidnight);
+      setCurrentTimeline(40 / 60 * minutesSinceMidnight - 1);
     };
     updateCurrentTimeline();
     const minuteTimer = setInterval(updateCurrentTimeline, 1000 * 60);
@@ -112,7 +112,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
       <Grid
         container
         columns={75}
-        sx={{ position: 'sticky', background: '#fff', top: 0, zIndex: 3 }}
+        sx={{ position: 'sticky', background: '#fff', top: 64, marginTop: 8, zIndex: 3, overflow: 'hidden' }}
       >
         <Grid item xs={5} sx={{ borderRight: '1px solid lightgray' }}></Grid>
         {week.map((weekday) => {
@@ -129,7 +129,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
               <Typography
                 component={'div'}
                 style={{
-                  margin: '5px 0',
+                  margin: '10px 0',
                   fontSize: 12,
                   textAlign: 'center',
                   color: 'gray',
