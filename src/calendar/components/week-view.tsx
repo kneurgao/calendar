@@ -40,6 +40,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   const [week, setWeek] = useState<Date[]>([]);
   const [dateWiseEventElements, setDateWiseEventElements] =
     useState<Map<string, EventElement[]>>();
+  const [currentTimeline, setCurrentTimeline] = useState<number>();
 
   useEffect(() => {
     setWeek(CalendarService.getWeekByFirstDay(firstDayOfWeek));
@@ -47,29 +48,41 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
 
   useEffect(() => {
     const eventElementMap = new Map<string, EventElement[]>();
-    events.forEach((event, index) => {
+    events.forEach((event) => {
       const eventDate = new Date(event.startTime).toDateString();
       let existingEventElements = eventElementMap.get(eventDate);
       if (!existingEventElements) {
         existingEventElements = [];
         eventElementMap.set(eventDate, existingEventElements);
       }
-      existingEventElements.push(getEventElement(event, new Date(eventDate)));
+      existingEventElements.push(getEventElement(event));
     });
     setDateWiseEventElements(eventElementMap);
   }, [events]);
 
+  useEffect(() => {
+    const updateCurrentTimeline = () => {
+      const minutesSinceMidnight = CalendarService.getMinutesSinceMidnight();
+      setCurrentTimeline(40 / 60 * minutesSinceMidnight);
+    };
+    updateCurrentTimeline();
+    const minuteTimer = setInterval(updateCurrentTimeline, 1000 * 60);
+    return () => {
+      clearInterval(minuteTimer);
+    };
+  }, []);
+
   const getEventElement = (
-    event: CalendarEvent,
-    eventDate: Date
+    event: CalendarEvent
   ): EventElement => {
     const durationInMins =
       (new Date(event.endTime).getTime() -
         new Date(event.startTime).getTime()) /
       1000 /
       60;
-    const timeSinceMidnight =
-      (new Date(event.startTime).getTime() - eventDate.getTime()) / 1000 / 60;
+    const timeSinceMidnight = CalendarService.getMinutesSinceMidnight(
+      new Date(event.startTime)
+    );
 
     const textStyle =
       durationInMins > 15
@@ -99,50 +112,49 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
       <Grid
         container
         columns={75}
-        sx={{ position: 'sticky', background: '#fff', top: 0, zIndex: 1 }}
+        sx={{ position: 'sticky', background: '#fff', top: 0, zIndex: 3 }}
       >
         <Grid item xs={5} sx={{ borderRight: '1px solid lightgray' }}></Grid>
         {week.map((weekday) => {
           return (
-            <React.Fragment key={weekday.getDay()}>
-              <Grid
-                item
-                xs={10}
-                sx={{
-                  borderBottom: '1px solid lightgray',
-                  borderRight: '1px solid lightgray',
+            <Grid
+              key={weekday.getDay()}
+              item
+              xs={10}
+              sx={{
+                borderBottom: '1px solid lightgray',
+                borderRight: '1px solid lightgray',
+              }}
+            >
+              <Typography
+                component={'div'}
+                style={{
+                  margin: '5px 0',
+                  fontSize: 12,
+                  textAlign: 'center',
+                  color: 'gray',
                 }}
               >
-                <Typography
-                  component={'div'}
-                  style={{
-                    margin: '5px 0',
-                    fontSize: 12,
-                    textAlign: 'center',
-                    color: 'gray',
-                  }}
-                >
-                  {CalendarService.getWeekday(weekday)}
-                </Typography>
-                <Box
-                  component="h4"
-                  sx={{
-                    bgcolor: CalendarService.isToday(weekday)
-                      ? 'primary.main'
-                      : '',
-                    width: 40,
-                    height: 40,
-                    lineHeight: '40px',
-                    textAlign: 'center',
-                    borderRadius: '50%',
-                    margin: '10px auto',
-                    color: CalendarService.isToday(weekday) ? '#fff' : '',
-                  }}
-                >
-                  {weekday.getDate()}
-                </Box>
-              </Grid>
-            </React.Fragment>
+                {CalendarService.getWeekday(weekday)}
+              </Typography>
+              <Box
+                component="h4"
+                sx={{
+                  bgcolor: CalendarService.isToday(weekday)
+                    ? 'primary.main'
+                    : '',
+                  width: 40,
+                  height: 40,
+                  lineHeight: '40px',
+                  textAlign: 'center',
+                  borderRadius: '50%',
+                  margin: '10px auto',
+                  color: CalendarService.isToday(weekday) ? '#fff' : '',
+                }}
+              >
+                {weekday.getDate()}
+              </Box>
+            </Grid>
           );
         })}
       </Grid>
@@ -151,70 +163,84 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
           <Paper sx={{ height: 10 }} elevation={0}></Paper>
           {hours.map((hour) => {
             return (
-              <React.Fragment key={hour}>
-                <Paper sx={{ height: 10 }} elevation={0}></Paper>
-                <Divider textAlign="left" style={{ marginTop: 8 }}>
-                  <Typography
-                    component={'span'}
-                    style={{ fontSize: 12, color: 'gray' }}
-                  >
-                    {hour}
-                  </Typography>
-                </Divider>
-              </React.Fragment>
+              <Divider key={hour} textAlign="left" style={{ marginTop: 18 }}>
+                <Typography
+                  component={'span'}
+                  style={{ fontSize: 12, color: 'gray' }}
+                >
+                  {hour}
+                </Typography>
+              </Divider>
             );
           })}
         </Grid>
         {week.map((weekday) => {
           return (
-            <React.Fragment key={weekday.getDay()}>
-              <Grid item xs={10} sx={{ borderRight: '1px solid lightgray' }}>
-                {dateWiseEventElements
-                  ?.get(weekday.toDateString())
-                  ?.map((eventElement) => {
-                    return (
-                      <Paper
-                        elevation={1}
-                        sx={{
-                          color: '#fff',
-                          bgcolor: '#039be5',
-                          position: 'absolute',
-                          marginBottom: '2px',
-                          ...eventElement.style,
-                        }}
-                      >
-                        <Typography
-                          component={'h6'}
-                          style={{
-                            padding: '0 4px',
-                            ...eventElement.textStyle,
-                          }}
-                        >
-                          {eventElement.title}
-                        </Typography>
-                      </Paper>
-                    );
-                  })}
-
-                {hours.map((hour) => {
+            <Grid
+              key={weekday.getDay()}
+              item
+              xs={10}
+              sx={{ borderRight: '1px solid lightgray' }}
+            >
+              {CalendarService.isToday(weekday) && (
+                <Paper
+                  elevation={0}
+                  sx={{
+                    bgcolor: '#ea4335',
+                    position: 'absolute',
+                    zIndex: 2,
+                    width: '11%',
+                    height: '2px',
+                    marginLeft: '2px',
+                    marginTop: currentTimeline + 'px',
+                  }}
+                ></Paper>
+              )}
+              {dateWiseEventElements
+                ?.get(weekday.toDateString())
+                ?.map((eventElement, index) => {
                   return (
-                    <React.Fragment key={hour}>
-                      <Paper
-                        elevation={0}
-                        square={true}
+                    <Paper
+                      key={index}
+                      elevation={1}
+                      sx={{
+                        color: '#fff',
+                        bgcolor: '#039be5',
+                        position: 'absolute',
+                        marginBottom: '2px',
+                        ...eventElement.style,
+                      }}
+                    >
+                      <Typography
+                        component={'h6'}
                         style={{
-                          lineHeight: '39px',
-                          fontSize: 12,
-                          borderBottom: '1px solid lightgray',
+                          padding: '0 4px',
+                          ...eventElement.textStyle,
                         }}
                       >
-                        &nbsp;
-                      </Paper>
-                    </React.Fragment>
+                        {eventElement.title}
+                      </Typography>
+                    </Paper>
                   );
                 })}
-              </Grid>
-            </React.Fragment>
+
+              {hours.map((hour) => {
+                return (
+                  <Paper
+                    key={hour}
+                    elevation={0}
+                    square={true}
+                    style={{
+                      lineHeight: '39px',
+                      fontSize: 12,
+                      borderBottom: '1px solid lightgray',
+                    }}
+                  >
+                    &nbsp;
+                  </Paper>
+                );
+              })}
+            </Grid>
           );
         })}
       </Grid>
