@@ -62,6 +62,10 @@ const isToday = (date: Date) => {
   return _.isEqual(date.toDateString(), new Date().toDateString());
 };
 
+const getMinutesSinceMidnight = (currentDate: Date = new Date()) => {
+  return (currentDate.getTime() - new Date(currentDate.toDateString()).getTime()) / 1000 / 60;
+};
+
 const CalendarService = {
   getFirstDayOfWeek,
   getLastDayOfWeek,
@@ -73,6 +77,7 @@ const CalendarService = {
   getWeekByFirstDay,
   getToday,
   isToday,
+  getMinutesSinceMidnight,
 };
 
 export default CalendarService;
