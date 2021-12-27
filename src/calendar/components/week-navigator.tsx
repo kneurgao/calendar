@@ -37,7 +37,7 @@ const WeekNavigator: React.FC<{
 
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         <Grid item>
           <Tooltip
             TransitionComponent={Zoom}
@@ -61,7 +61,7 @@ const WeekNavigator: React.FC<{
           </Tooltip>
         </Grid>
         <Grid item>
-          <Typography variant='h5' sx={{ padding: '4px', color: 'gray' }}>
+          <Typography variant='h6' sx={{ padding: '4px', fontWeight: 400 }}>
             {title}
           </Typography>
         </Grid>
