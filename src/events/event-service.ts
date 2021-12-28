@@ -1,7 +1,14 @@
+import { CalendarEvent } from './../calendar/models/calendar-event';
 import CalendarService from '../calendar/services/calendar-service';
-import events from './data/events';
+import { calendarDb } from '../common/db/calendar-db';
+import allEvents from './data/events';
 
-const getAll = (firstDayOfWeek: Date) => {
+const getAll = async (firstDayOfWeek: Date) => {
+  let events = await calendarDb.events.toArray();
+  if (!events || events.length === 0) {
+    storeEvents(allEvents);
+    events = allEvents;
+  }
   const filteredEvents = events.filter((e) =>
     matchCurrentWeek(firstDayOfWeek, new Date(e.startTime), new Date(e.endTime))
   );
@@ -19,6 +26,10 @@ const matchCurrentWeek = (
     (startTime >= firstDayOfWeek && startTime < firstDayOfNextWeek) ||
     (endTime >= firstDayOfWeek && endTime < firstDayOfNextWeek)
   );
+};
+
+const storeEvents = async (events: CalendarEvent[]) => {
+  await calendarDb.events.bulkAdd(events);
 };
 
 const EventService = {
