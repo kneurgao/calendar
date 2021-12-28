@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react';
+
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { CalendarViewWeek } from '@mui/icons-material';
 
 const AppNavbar: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" color="inherit" elevation={1} >
+      <AppBar elevation={1} position="fixed" color="inherit">
         <Toolbar>
           <IconButton
             size="large"

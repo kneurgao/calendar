@@ -7,31 +7,31 @@ import {
   Today,
 } from '@mui/icons-material';
 
-import CalendarService from '../services/calendar-service';
+import CalendarUtils from '../services/calendar-utils';
 
 const WeekNavigator: React.FC<{
   firstDayOfWeek: Date;
-  firstDayOfWeekChanged: (date: Date) => void;
-}> = ({ firstDayOfWeek, firstDayOfWeekChanged }) => {
+  weekChanged: (date: Date) => void;
+}> = ({ firstDayOfWeek, weekChanged }) => {
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    setTitle(CalendarService.getMonthName(firstDayOfWeek));
+    setTitle(CalendarUtils.getMonthName(firstDayOfWeek));
   }, [firstDayOfWeek]);
 
   const gotoCurrentWeek = () => {
-    firstDayOfWeekChanged(CalendarService.getFirstDayOfWeek());
+    weekChanged(CalendarUtils.getFirstDayOfWeek());
   };
 
   const gotoPrevWeek = () => {
-    firstDayOfWeekChanged(
-      CalendarService.getFirstDayOfPrevWeek(firstDayOfWeek)
+    weekChanged(
+      CalendarUtils.getFirstDayOfPrevWeek(firstDayOfWeek)
     );
   };
 
   const gotoNextWeek = () => {
-    firstDayOfWeekChanged(
-      CalendarService.getFirstDayOfNextWeek(firstDayOfWeek)
+    weekChanged(
+      CalendarUtils.getFirstDayOfNextWeek(firstDayOfWeek)
     );
   };
 
@@ -41,7 +41,7 @@ const WeekNavigator: React.FC<{
         <Grid item>
           <Tooltip
             TransitionComponent={Zoom}
-            title={CalendarService.getToday()}
+            title={CalendarUtils.getToday()}
           >
             <IconButton aria-label='Today' onClick={gotoCurrentWeek}>
               <Today />

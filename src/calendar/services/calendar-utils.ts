@@ -63,10 +63,25 @@ const isToday = (date: Date) => {
 };
 
 const getMinutesSinceMidnight = (currentDate: Date = new Date()) => {
-  return (currentDate.getTime() - new Date(currentDate.toDateString()).getTime()) / 1000 / 60;
+  return (
+    (currentDate.getTime() - new Date(currentDate.toDateString()).getTime()) /
+    1000 /
+    60
+  );
 };
 
-const CalendarService = {
+const getHours = () => {
+  let date = new Date();
+  return _.times(24).map((value) => {
+    date.setHours(value + 1);
+    return date.toLocaleTimeString('default', {
+      hour12: true,
+      hour: 'numeric',
+    });
+  });
+};
+
+const CalendarUtils = {
   getFirstDayOfWeek,
   getLastDayOfWeek,
   getFirstDayOfPrevWeek,
@@ -78,6 +93,7 @@ const CalendarService = {
   getToday,
   isToday,
   getMinutesSinceMidnight,
+  getHours,
 };
 
-export default CalendarService;
+export default CalendarUtils;

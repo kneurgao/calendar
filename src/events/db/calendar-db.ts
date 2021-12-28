@@ -1,5 +1,6 @@
-import { CalendarEvent } from './../../calendar/models/calendar-event';
 import Dexie, { Table } from 'dexie';
+
+import { CalendarEvent } from '../../calendar';
 
 export interface IndexedCalendarEvent extends CalendarEvent {
   id?: number;

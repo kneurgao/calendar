@@ -2,36 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
 
-import CalendarService from '../services/calendar-service';
+import CalendarUtils from '../services/calendar-utils';
 import { CalendarEvent } from '../models/calendar-event';
 import { EventElement } from '../models/event-element';
-
-const hours = [
-  '1 AM',
-  '2 AM',
-  '3 AM',
-  '4 AM',
-  '5 AM',
-  '6 AM',
-  '7 AM',
-  '8 AM',
-  '9 AM',
-  '10 AM',
-  '11 AM',
-  '12 PM',
-  '1 PM',
-  '2 PM',
-  '3 PM',
-  '4 PM',
-  '5 PM',
-  '6 PM',
-  '7 PM',
-  '8 PM',
-  '9 PM',
-  '10 PM',
-  '11 PM',
-  '12 AM',
-];
 
 const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   firstDayOfWeek,
@@ -43,7 +16,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   const [currentTimeline, setCurrentTimeline] = useState<number>();
 
   useEffect(() => {
-    setWeek(CalendarService.getWeekByFirstDay(firstDayOfWeek));
+    setWeek(CalendarUtils.getWeekByFirstDay(firstDayOfWeek));
   }, [firstDayOfWeek]);
 
   useEffect(() => {
@@ -62,7 +35,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
 
   useEffect(() => {
     const updateCurrentTimeline = () => {
-      const minutesSinceMidnight = CalendarService.getMinutesSinceMidnight();
+      const minutesSinceMidnight = CalendarUtils.getMinutesSinceMidnight();
       setCurrentTimeline(40 / 60 * minutesSinceMidnight - 1);
     };
     updateCurrentTimeline();
@@ -80,7 +53,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
         new Date(event.startTime).getTime()) /
       1000 /
       60;
-    const timeSinceMidnight = CalendarService.getMinutesSinceMidnight(
+    const timeSinceMidnight = CalendarUtils.getMinutesSinceMidnight(
       new Date(event.startTime)
     );
 
@@ -128,19 +101,19 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
             >
               <Typography
                 component={'div'}
-                style={{
+                sx={{
                   margin: '10px 0',
                   fontSize: 12,
                   textAlign: 'center',
                   color: 'gray',
                 }}
               >
-                {CalendarService.getWeekday(weekday)}
+                {CalendarUtils.getWeekday(weekday)}
               </Typography>
               <Box
                 component="h4"
                 sx={{
-                  bgcolor: CalendarService.isToday(weekday)
+                  bgcolor: CalendarUtils.isToday(weekday)
                     ? 'primary.main'
                     : '',
                   width: 40,
@@ -149,7 +122,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
                   textAlign: 'center',
                   borderRadius: '50%',
                   margin: '10px auto',
-                  color: CalendarService.isToday(weekday) ? '#fff' : '',
+                  color: CalendarUtils.isToday(weekday) ? '#fff' : '',
                 }}
               >
                 {weekday.getDate()}
@@ -161,12 +134,12 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
       <Grid container columns={75}>
         <Grid item xs={5} sx={{ borderRight: '1px solid lightgray' }}>
           <Paper sx={{ height: 10 }} elevation={0}></Paper>
-          {hours.map((hour) => {
+          {CalendarUtils.getHours().map((hour) => {
             return (
               <Divider key={hour} textAlign="left" style={{ marginTop: 18 }}>
                 <Typography
                   component={'span'}
-                  style={{ fontSize: 12, color: 'gray' }}
+                  sx={{ fontSize: 12, color: 'gray' }}
                 >
                   {hour}
                 </Typography>
@@ -182,7 +155,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
               xs={10}
               sx={{ borderRight: '1px solid lightgray' }}
             >
-              {CalendarService.isToday(weekday) && (
+              {CalendarUtils.isToday(weekday) && (
                 <Paper
                   elevation={0}
                   sx={{
@@ -213,7 +186,7 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
                     >
                       <Typography
                         component={'h6'}
-                        style={{
+                        sx={{
                           padding: '0 4px',
                           ...eventElement.textStyle,
                         }}
@@ -224,13 +197,13 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
                   );
                 })}
 
-              {hours.map((hour) => {
+              {CalendarUtils.getHours().map((hour) => {
                 return (
                   <Paper
                     key={hour}
                     elevation={0}
                     square={true}
-                    style={{
+                    sx={{
                       lineHeight: '39px',
                       fontSize: 12,
                       borderBottom: '1px solid lightgray',
