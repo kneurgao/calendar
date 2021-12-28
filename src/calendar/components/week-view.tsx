@@ -92,15 +92,15 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
             lineHeight: 1.5,
           }
         : {
-            fontSize: 11,
+            fontSize: 10,
             fontWeight: 400,
-            lineHeight: 1.2,
+            lineHeight: 1.1,
           };
     return {
       title: event.title,
       style: {
         width: '135px',
-        height: Math.max((40 / 60) * durationInMins, 12),
+        height: Math.max((40 / 60) * durationInMins, 10),
         marginTop: (40 / 60) * timeSinceMidnight + 'px',
       },
       textStyle,
