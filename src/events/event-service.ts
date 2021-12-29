@@ -1,14 +1,23 @@
+import axios from 'axios';
+
 import CalendarDbService from './db/calendar-db-service';
 import CalendarUtils from '../calendar/services/calendar-utils';
 import { CalendarEvent } from './../calendar/models/calendar-event';
-import allEvents from './data/events';
+
+const apiUrl = 'events.json';
 
 const getAll = async (firstDayOfWeek: Date) => {
+  // Load events from database
   let events = await CalendarDbService.loadEvents();
+
+  // If empty then fetch from API and store into database
   if (!events || events.length === 0) {
-    CalendarDbService.storeEvents(allEvents);
-    events = allEvents;
+    const eventsResponse = await axios.get<CalendarEvent[]>(apiUrl);
+    CalendarDbService.storeEvents(eventsResponse.data);
+    events = eventsResponse.data;
   }
+
+  // Filter events for current week (ideally should be done by API)
   const filteredEvents = filterEvents(events, firstDayOfWeek);
   return Promise.resolve(filteredEvents);
 };
