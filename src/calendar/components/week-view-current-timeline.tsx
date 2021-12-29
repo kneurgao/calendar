@@ -27,7 +27,11 @@ const WeekViewCurrentTimeline: React.FC = () => {
 
   useEffect(() => {
     if (currentTimeline) {
-      timelineRef.current?.scrollIntoView({  behavior: "smooth" });
+      timelineRef.current?.scrollIntoView({
+        block: 'end',
+        inline: 'nearest',
+        behavior: 'smooth',
+      });
     }
   });
 
