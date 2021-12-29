@@ -61,9 +61,9 @@ const checkConflicts = (events: CalendarEvent[]) => {
         break;
       }
       if (
-        moment(event.startTime).isBetween(
-          moment(oEvent.startTime),
-          moment(oEvent.endTime)
+        moment(new Date(event.startTime)).isBetween(
+          moment(new Date(oEvent.startTime)),
+          moment(new Date(oEvent.endTime))
         ) &&
         oEvent.level >= event.level
       ) {
