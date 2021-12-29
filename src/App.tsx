@@ -26,7 +26,7 @@ function App() {
       <AppNavbar>
         <WeekNavigator
           firstDayOfWeek={firstDayOfWeek}
-          weekChanged={setFirstDayOfWeek}
+          onChange={setFirstDayOfWeek}
         ></WeekNavigator>
       </AppNavbar>
       <Container maxWidth="lg">

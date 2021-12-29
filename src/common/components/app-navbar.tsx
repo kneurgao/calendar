@@ -17,7 +17,7 @@ const AppNavbar: React.FC<{ children: ReactNode }> = ({ children }) => {
           >
             <CalendarViewWeek />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, mr: 8 }}>
+          <Typography variant={'h6'} sx={{ flexGrow: 1, mr: 8 }}>
             Calendar
           </Typography>
           {children}

@@ -70,7 +70,7 @@ const getMinutesSinceMidnight = (currentDate: Date = new Date()) => {
   );
 };
 
-const getHours = () => {
+const get24HourSlots = () => {
   let date = new Date();
   return _.times(24).map((value) => {
     date.setHours(value + 1);
@@ -93,7 +93,7 @@ const CalendarUtils = {
   getToday,
   isToday,
   getMinutesSinceMidnight,
-  getHours,
+  get24HourSlots,
 };
 
 export default CalendarUtils;
