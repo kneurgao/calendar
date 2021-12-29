@@ -4,6 +4,7 @@ import CalendarUtils from '../services/calendar-utils';
 import { CalendarEvent } from '../models/calendar-event';
 import WeekViewHeader from './week-view-header';
 import WeekViewBody from './week-view-body';
+import WeekContext from '../contexts/week-context';
 
 const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   firstDayOfWeek,
@@ -16,10 +17,10 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   }, [firstDayOfWeek]);
 
   return (
-    <>
-      <WeekViewHeader week={week}></WeekViewHeader>
-      <WeekViewBody week={week} events={events}></WeekViewBody>
-    </>
+    <WeekContext.Provider value={{week, setWeek}}>
+      <WeekViewHeader></WeekViewHeader>
+      <WeekViewBody events={events}></WeekViewBody>
+    </WeekContext.Provider>
   );
 };
 

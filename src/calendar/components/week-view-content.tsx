@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Grid, Typography, Paper } from '@mui/material';
 
@@ -6,11 +6,12 @@ import CalendarUtils from '../services/calendar-utils';
 import WeekViewConstants from '../constants/week-view-constants';
 import { EventElement } from '../models/event-element';
 import { CalendarEvent } from '../models/calendar-event';
+import WeekContext from '../contexts/week-context';
 
 const WeekViewContent: React.FC<{
-  week: Date[];
   events: CalendarEvent[];
-}> = ({ week, events }) => {
+}> = ({ events }) => {
+  const { week } = useContext(WeekContext);
   const [dateWiseEventElements, setDateWiseEventElements] =
     useState<Map<string, EventElement[]>>();
   const [currentTimeline, setCurrentTimeline] = useState<number>(0);
@@ -35,9 +36,9 @@ const WeekViewContent: React.FC<{
       setCurrentTimeline((40 / 60) * minutesSinceMidnight - 1);
     };
     updateCurrentTimeline();
-    const minuteTimer = setInterval(updateCurrentTimeline, 1000 * 60);
+    const currentTimelineTimer = setInterval(updateCurrentTimeline, 1000 * 60);
     return () => {
-      clearInterval(minuteTimer);
+      clearInterval(currentTimelineTimer);
     };
   }, []);
 

@@ -8,13 +8,12 @@ import WeekViewContent from './week-view-content';
 import { CalendarEvent } from '../models/calendar-event';
 
 const WeekViewBody: React.FC<{
-  week: Date[];
   events: CalendarEvent[];
-}> = ({ week, events }) => {
+}> = ({ events }) => {
   return (
     <Grid container columns={WeekViewConstants.totalWidth}>
       <WeekViewMargin></WeekViewMargin>
-      <WeekViewContent week={week} events={events}></WeekViewContent>
+      <WeekViewContent events={events}></WeekViewContent>
     </Grid>
   );
 };

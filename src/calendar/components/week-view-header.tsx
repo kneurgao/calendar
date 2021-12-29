@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Grid, Typography, Box } from '@mui/material';
 
 import CalendarUtils from '../services/calendar-utils';
 import WeekViewConstants from '../constants/week-view-constants';
+import WeekContext from '../contexts/week-context';
 
-const WeekViewHeader: React.FC<{
-  week: Date[];
-}> = ({ week }) => {
+const WeekViewHeader: React.FC = () => {
+  const { week } = useContext(WeekContext);
+
   return (
     <Grid
       container
