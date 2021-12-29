@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 
 import { Grid, Typography, Box } from '@mui/material';
 
+import WeekContext from '../contexts/week-context';
 import CalendarUtils from '../services/calendar-utils';
 import WeekViewConstants from '../constants/week-view-constants';
-import WeekContext from '../contexts/week-context';
 
 const WeekViewHeader: React.FC = () => {
   const { week } = useContext(WeekContext);
@@ -22,11 +22,14 @@ const WeekViewHeader: React.FC = () => {
         overflow: 'hidden',
       }}
     >
+      {/* Top-left notch */}
       <Grid
         item
         xs={WeekViewConstants.marginWidth}
         sx={{ borderRight: '1px solid lightgray' }}
       ></Grid>
+
+      {/* Week headers */}
       {week.map((weekday) => {
         return (
           <Grid
@@ -38,6 +41,7 @@ const WeekViewHeader: React.FC = () => {
               borderRight: '1px solid lightgray',
             }}
           >
+            {/* Day */}
             <Typography
               component={'div'}
               sx={{
@@ -49,6 +53,8 @@ const WeekViewHeader: React.FC = () => {
             >
               {CalendarUtils.getWeekday(weekday)}
             </Typography>
+
+            {/* Date */}
             <Box
               component={'h4'}
               sx={{

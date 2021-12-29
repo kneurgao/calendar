@@ -13,6 +13,8 @@ const WeekViewMargin: React.FC = () => {
       sx={{ borderRight: '1px solid lightgray' }}
     >
       <Paper sx={{ height: 10 }} elevation={0}></Paper>
+
+      {/* Left margin to show time in each hour slot */}
       {CalendarUtils.get24HourSlots().map((hour) => {
         return (
           <Divider key={hour} textAlign="left" style={{ marginTop: 18 }}>

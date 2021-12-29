@@ -8,7 +8,7 @@ interface Week {
 const WeekContext = React.createContext<Week>({
   week: [],
   setWeek: () => {
-      //Default
+    // Default
   },
 });
 

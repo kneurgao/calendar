@@ -12,7 +12,7 @@ import CalendarUtils from '../services/calendar-utils';
 
 const WeekNavigator: React.FC<{
   firstDayOfWeek: Date;
-  onChange: (date: Date) => void;
+  onChange: (firstDayOfWeek: Date) => void;
 }> = ({ firstDayOfWeek, onChange }) => {
   const [title, setTitle] = useState('');
 
@@ -34,6 +34,7 @@ const WeekNavigator: React.FC<{
 
   return (
     <>
+      {/* Go Today */}
       <Grid container spacing={2}>
         <Grid item>
           <ActionButton
@@ -44,18 +45,18 @@ const WeekNavigator: React.FC<{
             <Today />
           </ActionButton>
         </Grid>
+
+        {/* Navigate to prev/next weeks */}
         <Grid item>
-          <ActionButton
-            label="Prev"
-            title="Previous week"
-            onClick={gotoPrevWeek}
-          >
+          <ActionButton title="Previous week" onClick={gotoPrevWeek}>
             <KeyboardArrowLeft />
           </ActionButton>
-          <ActionButton label="Next" title="Next week" onClick={gotoNextWeek}>
+          <ActionButton title="Next week" onClick={gotoNextWeek}>
             <KeyboardArrowRight />
           </ActionButton>
         </Grid>
+
+        {/* Month(s) name */}
         <Grid item>
           <Typography variant={'h6'} sx={{ padding: '4px', fontWeight: 400 }}>
             {title}

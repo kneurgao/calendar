@@ -8,7 +8,7 @@ import AppNavbar from './common/components/app-navbar';
 import CalendarUtils from './calendar/services/calendar-utils';
 import EventService from './events/event-service';
 
-function App() {
+const App: React.FC = () => {
   const [firstDayOfWeek, setFirstDayOfWeek] = useState<Date>(
     CalendarUtils.getFirstDayOfWeek()
   );

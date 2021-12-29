@@ -21,11 +21,15 @@ const WeekViewContent: React.FC = () => {
             xs={WeekViewConstants.dayColumnWidth}
             sx={{ borderRight: '1px solid lightgray' }}
           >
+            {/* Show current time line */}
             <WeekViewCurrentTimeline
               weekday={weekday}
             ></WeekViewCurrentTimeline>
+
+            {/* List events */}
             <WeekViewEvents weekday={weekday}></WeekViewEvents>
 
+            {/* Show hour slots for a week day */}
             {CalendarUtils.get24HourSlots().map((hour) => {
               return (
                 <Paper
