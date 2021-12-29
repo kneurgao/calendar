@@ -14,6 +14,8 @@ const WeekViewEvents: React.FC<{
           <Tooltip
             key={index}
             TransitionComponent={Zoom}
+            arrow={true}
+            placement={'right-start'}
             title={eventElement.title + ' (' + eventElement.time + ')'}
           >
             <Paper
