@@ -18,16 +18,16 @@ const WeekViewContent: React.FC = () => {
     useState<Map<number, EventElement[]>>();
 
   useEffect(() => {
-    const eventElementMap = new Map<number, EventElement[]>();
-    events.forEach((event) => {
+    const eventElementMap = events.reduce<Map<number, EventElement[]>>((map, event) => {
       const eventDate = new Date(event.startTime).getDate();
-      let existingEventElements = eventElementMap.get(eventDate);
+      let existingEventElements = map.get(eventDate);
       if (!existingEventElements) {
         existingEventElements = [];
-        eventElementMap.set(eventDate, existingEventElements);
+        map.set(eventDate, existingEventElements);
       }
       existingEventElements.push(getEventElement(event));
-    });
+      return map;
+    }, new Map<number, EventElement[]>());
     setDateWiseEventElements(eventElementMap);
   }, [events]);
 
