@@ -34,6 +34,6 @@ const App: React.FC = () => {
       </Container>
     </>
   );
-}
+};
 
 export default App;

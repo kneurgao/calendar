@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Paper } from '@mui/material';
 
 import CalendarUtils from '../services/calendar-utils';
 
-const WeekViewCurrentTimeline: React.FC<{
-  weekday: Date;
-}> = ({ weekday }) => {
+const WeekViewCurrentTimeline: React.FC = () => {
   const [currentTimeline, setCurrentTimeline] = useState<number>(0);
+  let timelineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Calculate position of timeline
@@ -26,23 +25,27 @@ const WeekViewCurrentTimeline: React.FC<{
     };
   }, []);
 
+  useEffect(() => {
+    if (currentTimeline) {
+      timelineRef.current?.scrollIntoView({  behavior: "smooth" });
+    }
+  });
+
   return (
-    <>
-      {CalendarUtils.isToday(weekday) && (
-        <Paper
-          elevation={0}
-          sx={{
-            bgcolor: '#ea4335',
-            position: 'absolute',
-            zIndex: 2,
-            width: '11%',
-            height: '2px',
-            marginLeft: '2px',
-            marginTop: currentTimeline + 'px',
-          }}
-        ></Paper>
-      )}
-    </>
+    <Paper
+      elevation={0}
+      sx={{
+        bgcolor: '#ea4335',
+        position: 'absolute',
+        zIndex: 2,
+        width: '11%',
+        height: '2px',
+        marginLeft: '2px',
+        marginTop: currentTimeline + 'px',
+      }}
+    >
+      <div ref={timelineRef}></div>
+    </Paper>
   );
 };
 

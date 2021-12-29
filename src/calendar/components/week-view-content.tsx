@@ -78,10 +78,10 @@ const WeekViewContent: React.FC = () => {
             xs={WeekViewConstants.dayColumnWidth}
             sx={{ borderRight: '1px solid lightgray' }}
           >
-            {/* Show current time line */}
-            <WeekViewCurrentTimeline
-              weekday={weekday}
-            ></WeekViewCurrentTimeline>
+            {/* Show current time line for today */}
+            {CalendarUtils.isToday(weekday) && (
+              <WeekViewCurrentTimeline></WeekViewCurrentTimeline>
+            )}
 
             {/* List events */}
             <WeekViewEvents
