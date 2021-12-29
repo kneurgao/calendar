@@ -4,7 +4,7 @@
 - Create React App, Typescript template
 - Material UI components
 - Show week view default to current week (Responsive grid)
-- Highlight today's date
+- Highlight today's date (real-time)
 - Navigation to previous / next weeks
 - Navigation to current week (Today)
 - Show current week's month(s)
