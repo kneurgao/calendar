@@ -45,8 +45,7 @@ const isToday = (date: Date) => {
 };
 
 const getDiffInMinutes = (startTime: Date, endTime: Date) => {
-  const r = moment(endTime).diff(moment(startTime), 'minutes');
-  return r;
+  return moment(endTime).diff(moment(startTime), 'minutes');
 };
 
 const getMinutesSinceMidnight = (currentDate?: Date) => {
