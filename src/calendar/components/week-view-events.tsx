@@ -1,0 +1,56 @@
+import React from 'react';
+
+import { Typography, Paper, Tooltip, Zoom } from '@mui/material';
+
+import { EventElement } from '../models/event-element';
+
+const WeekViewEvents: React.FC<{
+  eventElements?: EventElement[];
+}> = ({ eventElements }) => {
+  return (
+    <>
+      {eventElements?.map((eventElement, index) => {
+        return (
+          <Tooltip
+            key={index}
+            TransitionComponent={Zoom}
+            title={eventElement.title + ' (' + eventElement.time + ')'}
+          >
+            <Paper
+              elevation={1}
+              sx={{
+                color: '#fff',
+                bgcolor: '#039be5',
+                position: 'absolute',
+                marginBottom: '2px',
+                ...eventElement.style,
+              }}
+            >
+              <Typography
+                component={'h6'}
+                sx={{
+                  padding: '0 4px',
+                  whiteSpace: 'nowrap',
+                  ...eventElement.textStyle,
+                }}
+              >
+                {eventElement.title}
+              </Typography>
+              <Typography
+                component={'h6'}
+                sx={{
+                  padding: '4px',
+                  fontSize: 10,
+                }}
+              >
+                {eventElement.time}
+              </Typography>
+            </Paper>
+          </Tooltip>
+        );
+      })}
+    </>
+  );
+};
+
+export default WeekViewEvents;

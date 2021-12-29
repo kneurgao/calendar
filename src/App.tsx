@@ -3,15 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
 
 import './App.css';
-import { WeekNavigator, WeekView } from './calendar';
+import { CalendarEvent, WeekNavigator, WeekView } from './calendar';
 import AppNavbar from './common/components/app-navbar';
-import CalendarService from './calendar/services/calendar-service';
+import CalendarUtils from './calendar/services/calendar-utils';
 import EventService from './events/event-service';
-import { CalendarEvent } from './calendar/models/calendar-event';
 
-function App() {
+const App: React.FC = () => {
   const [firstDayOfWeek, setFirstDayOfWeek] = useState<Date>(
-    CalendarService.getFirstDayOfWeek()
+    CalendarUtils.getFirstDayOfWeek()
   );
   const [events, setEvents] = useState<CalendarEvent[]>([]);
 
@@ -27,14 +26,14 @@ function App() {
       <AppNavbar>
         <WeekNavigator
           firstDayOfWeek={firstDayOfWeek}
-          firstDayOfWeekChanged={setFirstDayOfWeek}
+          onChange={setFirstDayOfWeek}
         ></WeekNavigator>
       </AppNavbar>
-      <Container fixed>
+      <Container maxWidth={'lg'}>
         <WeekView firstDayOfWeek={firstDayOfWeek} events={events}></WeekView>
       </Container>
     </>
   );
-}
+};
 
 export default App;

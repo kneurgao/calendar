@@ -1,5 +1,6 @@
 export interface EventElement {
   title: string;
+  time: string;
   style: {
     width: string;
     height: number;

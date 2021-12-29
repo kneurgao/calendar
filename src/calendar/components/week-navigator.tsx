@@ -1,67 +1,64 @@
 import React, { useEffect, useState } from 'react';
 
-import { Grid, IconButton, Tooltip, Typography, Zoom } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
   Today,
 } from '@mui/icons-material';
 
-import CalendarService from '../services/calendar-service';
+import ActionButton from './action-button';
+import CalendarUtils from '../services/calendar-utils';
 
 const WeekNavigator: React.FC<{
   firstDayOfWeek: Date;
-  firstDayOfWeekChanged: (date: Date) => void;
-}> = ({ firstDayOfWeek, firstDayOfWeekChanged }) => {
+  onChange: (firstDayOfWeek: Date) => void;
+}> = ({ firstDayOfWeek, onChange }) => {
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    setTitle(CalendarService.getMonthName(firstDayOfWeek));
+    setTitle(CalendarUtils.getMonthName(firstDayOfWeek));
   }, [firstDayOfWeek]);
 
   const gotoCurrentWeek = () => {
-    firstDayOfWeekChanged(CalendarService.getFirstDayOfWeek());
+    onChange(CalendarUtils.getFirstDayOfWeek());
   };
 
   const gotoPrevWeek = () => {
-    firstDayOfWeekChanged(
-      CalendarService.getFirstDayOfPrevWeek(firstDayOfWeek)
-    );
+    onChange(CalendarUtils.getFirstDayOfPrevWeek(firstDayOfWeek));
   };
 
   const gotoNextWeek = () => {
-    firstDayOfWeekChanged(
-      CalendarService.getFirstDayOfNextWeek(firstDayOfWeek)
-    );
+    onChange(CalendarUtils.getFirstDayOfNextWeek(firstDayOfWeek));
   };
 
   return (
     <>
+      {/* Go Today */}
       <Grid container spacing={2}>
         <Grid item>
-          <Tooltip
-            TransitionComponent={Zoom}
-            title={CalendarService.getToday()}
+          <ActionButton
+            label="Today"
+            title={CalendarUtils.getToday()}
+            onClick={gotoCurrentWeek}
           >
-            <IconButton aria-label='Today' onClick={gotoCurrentWeek}>
-              <Today />
-            </IconButton>
-          </Tooltip>
+            <Today />
+          </ActionButton>
         </Grid>
+
+        {/* Navigate to prev/next weeks */}
         <Grid item>
-          <Tooltip TransitionComponent={Zoom} title='Previous week'>
-            <IconButton aria-label='Prev' onClick={gotoPrevWeek}>
-              <KeyboardArrowLeft />
-            </IconButton>
-          </Tooltip>
-          <Tooltip TransitionComponent={Zoom} title='Next week'>
-            <IconButton aria-label='Next' onClick={gotoNextWeek}>
-              <KeyboardArrowRight />
-            </IconButton>
-          </Tooltip>
+          <ActionButton title="Previous week" onClick={gotoPrevWeek}>
+            <KeyboardArrowLeft />
+          </ActionButton>
+          <ActionButton title="Next week" onClick={gotoNextWeek}>
+            <KeyboardArrowRight />
+          </ActionButton>
         </Grid>
+
+        {/* Month(s) name */}
         <Grid item>
-          <Typography variant='h6' sx={{ padding: '4px', fontWeight: 400 }}>
+          <Typography variant={'h6'} sx={{ padding: '4px', fontWeight: 400 }}>
             {title}
           </Typography>
         </Grid>
