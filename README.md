@@ -1,3 +1,34 @@
+# Calendar - Week View
+
+## Features
+- Create React App, Typescript template
+- Material UI components
+- Show week view default to current week (Responsive grid)
+- Highlight today's date
+- Navigation to previous / next weeks
+- Navigation to current week (Today)
+- Show current week's month(s)
+- Fetch events stub JSON
+- Store events in Indexed DB
+- Read events from Indexed DB
+- Show event cards (Title, time)
+- Show overlapping event cards with indentation
+- Current timeline cursor (real-time)
+- Auto scroll to current time on load
+
+## Build & Deployment
+- Static code analysis via Sonar cloud ([kneurgao/calendar](https://sonarcloud.io/project/overview?id=kneurgao_calendar))
+- Deployed on Netlify ([Demo](https://cra-calendar-week-view.netlify.app/))
+
+## Third-party libraries
+- Material UI
+- Axios
+- Dexie, dexie-react-hooks
+- Lodash
+- Moment.js
+
+=======================================
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
