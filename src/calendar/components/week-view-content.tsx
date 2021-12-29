@@ -35,11 +35,10 @@ const WeekViewContent: React.FC = () => {
   }, [events]);
 
   const getEventElement = (event: IndexedCalendarEvent): EventElement => {
-    const durationInMins =
-      (new Date(event.endTime).getTime() -
-        new Date(event.startTime).getTime()) /
-      1000 /
-      60;
+    const durationInMins = CalendarUtils.getDiffInMinutes(
+      new Date(event.startTime),
+      new Date(event.endTime)
+    );
     const timeSinceMidnight = CalendarUtils.getMinutesSinceMidnight(
       new Date(event.startTime)
     );

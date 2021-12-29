@@ -1,105 +1,81 @@
+import moment from 'moment';
 import _ from 'lodash';
 
 const getFirstDayOfWeek = (date?: Date) => {
-  const firstDayOfWeek = date ? new Date(date) : new Date();
-  return new Date(
-    firstDayOfWeek.setDate(firstDayOfWeek.getDate() - firstDayOfWeek.getDay())
-  );
+  return moment(date).startOf('week').toDate();
 };
 
 const getLastDayOfWeek = (date?: Date) => {
-  const lastDayOfWeek = date ? new Date(date) : new Date();
-  return new Date(
-    lastDayOfWeek.setDate(lastDayOfWeek.getDate() - lastDayOfWeek.getDay() + 6)
-  );
+  return moment(date).endOf('week').startOf('day').toDate();
 };
 
 const getFirstDayOfPrevWeek = (date: Date) => {
-  const firstDayOfPrevWeek = new Date(date);
-  return new Date(firstDayOfPrevWeek.setDate(firstDayOfPrevWeek.getDate() - 7));
+  return moment(date).subtract(1, 'weeks').startOf('week').toDate();
 };
 
 const getFirstDayOfNextWeek = (date: Date) => {
-  const firstDayOfNextWeek = new Date(date);
-  return new Date(firstDayOfNextWeek.setDate(firstDayOfNextWeek.getDate() + 7));
-};
-
-const getMonthYearByDate = (date: Date) => {
-  return date.toLocaleString('default', {
-    month: 'long',
-    year: 'numeric',
-  });
+  return moment(date).add(1, 'weeks').startOf('week').toDate();
 };
 
 const getMonthName = (firstDayOfWeek: Date) => {
+  let monthName = moment(firstDayOfWeek).format('MMMM YYYY');
   const lastDayOfWeek = getLastDayOfWeek(firstDayOfWeek);
-  let monthName = getMonthYearByDate(firstDayOfWeek);
   if (firstDayOfWeek.getMonth() !== lastDayOfWeek.getMonth()) {
-    monthName += ' - ' + getMonthYearByDate(lastDayOfWeek);
+    monthName += ' - ' + moment(lastDayOfWeek).format('MMMM YYYY');
   }
   return monthName;
 };
 
 const getWeekday = (date: Date) => {
-  return date
-    .toLocaleString('default', { weekday: 'short' })
-    .toLocaleUpperCase();
+  return moment(date).format('ddd');
 };
 
 const getWeekByFirstDay = (firstDayOfWeek: Date) => {
   return _.times(7).map((value) => {
-    let date = new Date(firstDayOfWeek);
-    date.setDate(date.getDate() + value);
-    return date;
+    return moment(firstDayOfWeek).clone().add(value, 'days').toDate();
   });
 };
 
 const getToday = () => {
-  return new Date().toLocaleDateString('default', { dateStyle: 'full' });
+  return moment().format('dddd, MMMM D, YYYY');
 };
 
 const isToday = (date: Date) => {
-  return _.isEqual(date.toDateString(), new Date().toDateString());
+  return moment(date).isSame(moment(), 'day');
 };
 
-const getMinutesSinceMidnight = (currentDate: Date = new Date()) => {
-  return (
-    (currentDate.getTime() - new Date(currentDate.toDateString()).getTime()) /
-    1000 /
-    60
-  );
+const getDiffInMinutes = (startTime: Date, endTime: Date) => {
+  const r = moment(endTime).diff(moment(startTime), 'minutes');
+  return r;
+};
+
+const getMinutesSinceMidnight = (currentDate?: Date) => {
+  const today = moment(currentDate);
+  return today.diff(today.clone().startOf('day'), 'minutes');
 };
 
 const get24HourSlots = () => {
-  let date = new Date();
+  let today = moment().startOf('day');
   return _.times(24).map((value) => {
-    date.setHours(value + 1);
-    return date.toLocaleTimeString('default', {
-      hour12: true,
-      hour: 'numeric',
-    });
+    return moment(today).clone().add(value + 1, 'hours').format('h A');
   });
 };
 
 const getTime = (date: Date) => {
-  return date.toLocaleTimeString('default', {
-    hour12: true,
-    hour: 'numeric',
-    minute: 'numeric',
-  });
-}
+  return moment(date).format('h:mm A');
+};
 
 const CalendarUtils = {
   getFirstDayOfWeek,
   getLastDayOfWeek,
   getFirstDayOfPrevWeek,
   getFirstDayOfNextWeek,
-  getMonthYearByDate,
   getMonthName,
   getWeekday,
   getWeekByFirstDay,
   getToday,
   isToday,
+  getDiffInMinutes,
   getMinutesSinceMidnight,
   get24HourSlots,
   getTime,
