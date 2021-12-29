@@ -52,11 +52,7 @@ const WeekNavigator: React.FC<{
           >
             <KeyboardArrowLeft />
           </ActionButton>
-          <ActionButton
-            label="Next"
-            title="Next week"
-            onClick={gotoNextWeek}
-          >
+          <ActionButton label="Next" title="Next week" onClick={gotoNextWeek}>
             <KeyboardArrowRight />
           </ActionButton>
         </Grid>
