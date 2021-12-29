@@ -18,16 +18,19 @@ const WeekViewContent: React.FC = () => {
     useState<Map<number, EventElement[]>>();
 
   useEffect(() => {
-    const eventElementMap = events.reduce<Map<number, EventElement[]>>((map, event) => {
-      const eventDate = new Date(event.startTime).getDate();
-      let existingEventElements = map.get(eventDate);
-      if (!existingEventElements) {
-        existingEventElements = [];
-        map.set(eventDate, existingEventElements);
-      }
-      existingEventElements.push(getEventElement(event));
-      return map;
-    }, new Map<number, EventElement[]>());
+    const eventElementMap = events.reduce<Map<number, EventElement[]>>(
+      (map, event) => {
+        const eventDate = new Date(event.startTime).getDate();
+        let existingEventElements = map.get(eventDate);
+        if (!existingEventElements) {
+          existingEventElements = [];
+          map.set(eventDate, existingEventElements);
+        }
+        existingEventElements.push(getEventElement(event));
+        return map;
+      },
+      new Map<number, EventElement[]>()
+    );
     setDateWiseEventElements(eventElementMap);
   }, [events]);
 
@@ -59,10 +62,12 @@ const WeekViewContent: React.FC = () => {
         CalendarUtils.getTime(new Date(event.startTime)) +
         ' - ' +
         CalendarUtils.getTime(new Date(event.endTime)),
+      elevation: event.level > 1 ? 3 : 1,
       style: {
-        width: '135px',
+        width: !event.overlapCount ? 135 : 100 - (event.level - 1) * 15,
         height: Math.max((40 / 60) * durationInMins, 10),
-        marginTop: (40 / 60) * timeSinceMidnight + 'px',
+        marginLeft: (event.level - 1) * 5,
+        marginTop: (5 / 60) * timeSinceMidnight,
       },
       textStyle,
     } as EventElement;

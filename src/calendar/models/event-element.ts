@@ -1,10 +1,11 @@
 export interface EventElement {
   title: string;
   time: string;
+  elevation: number;
   style: {
-    width: string;
+    width: number;
     height: number;
-    marginTop: string;
+    marginTop: number;
   };
   textStyle: {
     fontSize: number;

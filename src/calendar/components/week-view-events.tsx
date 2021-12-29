@@ -17,7 +17,7 @@ const WeekViewEvents: React.FC<{
             title={eventElement.title + ' (' + eventElement.time + ')'}
           >
             <Paper
-              elevation={1}
+              elevation={eventElement.elevation}
               sx={{
                 color: '#fff',
                 bgcolor: '#039be5',
@@ -31,6 +31,7 @@ const WeekViewEvents: React.FC<{
                 sx={{
                   padding: '0 4px',
                   whiteSpace: 'nowrap',
+                  overflow: 'hidden',
                   ...eventElement.textStyle,
                 }}
               >
@@ -41,6 +42,8 @@ const WeekViewEvents: React.FC<{
                 sx={{
                   padding: '4px',
                   fontSize: 10,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
                 }}
               >
                 {eventElement.time}

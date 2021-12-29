@@ -25,6 +25,11 @@
         "endTime": "31-Dec-2021 9:15 AM"
     },
     {
+        "title": "Interview: Second round",
+        "startTime": "30-Dec-2021 4:30 PM",
+        "endTime": "30-Dec-2021 5:30 PM"
+    },
+    {
         "title": "Product demo: Release 1.1",
         "startTime": "30-Dec-2021 4:00 PM",
         "endTime": "30-Dec-2021 5:00 PM"
@@ -38,5 +43,20 @@
         "title": "Training: Features of Last9",
         "startTime": "3-Jan-2022 9:10 AM",
         "endTime": "3-Jan-2022 6:00 PM"
+    },
+    {
+        "title": "UX Review",
+        "startTime": "3-Jan-2022 9:00 AM",
+        "endTime": "3-Jan-2022 10:00 AM"
+    },
+    {
+        "title": "Database design review",
+        "startTime": "3-Jan-2022 5:00 PM",
+        "endTime": "3-Jan-2022 6:00 PM"
+    },
+    {
+        "title": "Interview: First Round",
+        "startTime": "3-Jan-2022 6:00 PM",
+        "endTime": "3-Jan-2022 7:00 PM"
     }
 ]
