@@ -81,6 +81,14 @@ const get24HourSlots = () => {
   });
 };
 
+const getTime = (date: Date) => {
+  return date.toLocaleTimeString('default', {
+    hour12: true,
+    hour: 'numeric',
+    minute: 'numeric',
+  });
+}
+
 const CalendarUtils = {
   getFirstDayOfWeek,
   getLastDayOfWeek,
@@ -94,6 +102,7 @@ const CalendarUtils = {
   isToday,
   getMinutesSinceMidnight,
   get24HourSlots,
+  getTime,
 };
 
 export default CalendarUtils;

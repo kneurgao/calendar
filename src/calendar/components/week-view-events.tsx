@@ -26,10 +26,20 @@ const WeekViewEvents: React.FC<{
               component={'h6'}
               sx={{
                 padding: '0 4px',
+                whiteSpace: 'nowrap',
                 ...eventElement.textStyle,
               }}
             >
               {eventElement.title}
+            </Typography>
+            <Typography
+              component={'h6'}
+              sx={{
+                padding: '4px',
+                fontSize: 10
+              }}
+            >
+              {eventElement.time}
             </Typography>
           </Paper>
         );

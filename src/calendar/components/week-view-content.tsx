@@ -55,6 +55,10 @@ const WeekViewContent: React.FC = () => {
           };
     return {
       title: event.title,
+      time:
+        CalendarUtils.getTime(new Date(event.startTime)) +
+        ' - ' +
+        CalendarUtils.getTime(new Date(event.endTime)),
       style: {
         width: '135px',
         height: Math.max((40 / 60) * durationInMins, 10),
