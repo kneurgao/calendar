@@ -29,7 +29,7 @@ function App() {
           onChange={setFirstDayOfWeek}
         ></WeekNavigator>
       </AppNavbar>
-      <Container maxWidth="lg">
+      <Container maxWidth={'lg'}>
         <WeekView firstDayOfWeek={firstDayOfWeek} events={events}></WeekView>
       </Container>
     </>

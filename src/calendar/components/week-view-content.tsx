@@ -3,15 +3,12 @@ import React, { useContext } from 'react';
 import { Grid, Paper } from '@mui/material';
 
 import WeekViewConstants from '../constants/week-view-constants';
-import { CalendarEvent } from '../models/calendar-event';
 import WeekContext from '../contexts/week-context';
 import WeekViewEvents from './week-view-events';
 import WeekViewCurrentTimeline from './week-view-current-timeline';
 import CalendarUtils from '../services/calendar-utils';
 
-const WeekViewContent: React.FC<{
-  events: CalendarEvent[];
-}> = ({ events }) => {
+const WeekViewContent: React.FC = () => {
   const { week } = useContext(WeekContext);
 
   return (
@@ -27,7 +24,7 @@ const WeekViewContent: React.FC<{
             <WeekViewCurrentTimeline
               weekday={weekday}
             ></WeekViewCurrentTimeline>
-            <WeekViewEvents weekday={weekday} events={events}></WeekViewEvents>
+            <WeekViewEvents weekday={weekday}></WeekViewEvents>
 
             {CalendarUtils.get24HourSlots().map((hour) => {
               return (

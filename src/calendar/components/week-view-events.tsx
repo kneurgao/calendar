@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { Typography, Paper } from '@mui/material';
 
 import CalendarUtils from '../services/calendar-utils';
 import { EventElement } from '../models/event-element';
 import { CalendarEvent } from '../models/calendar-event';
+import EventsContext from '../contexts/events-context';
 
 const WeekViewEvents: React.FC<{
   weekday: Date;
-  events: CalendarEvent[];
-}> = ({ weekday, events }) => {
+}> = ({ weekday }) => {
+  const { events } = useContext(EventsContext);
   const [dateWiseEventElements, setDateWiseEventElements] =
     useState<Map<string, EventElement[]>>();
 

@@ -57,7 +57,7 @@ const WeekNavigator: React.FC<{
           </ActionButton>
         </Grid>
         <Grid item>
-          <Typography variant="h6" sx={{ padding: '4px', fontWeight: 400 }}>
+          <Typography variant={'h6'} sx={{ padding: '4px', fontWeight: 400 }}>
             {title}
           </Typography>
         </Grid>
