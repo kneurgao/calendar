@@ -2,7 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import CalendarDbService from './db/calendar-db-service';
-import CalendarUtils from '../calendar/services/calendar-utils';
+import { CalendarUtils } from '../calendar';
 import { CalendarEvent } from './../calendar/models/calendar-event';
 
 const apiUrl = 'events.json';
@@ -73,7 +73,6 @@ const checkConflicts = (events: CalendarEvent[]) => {
       }
     }
   });
-  console.log(events);
 };
 
 const EventService = {

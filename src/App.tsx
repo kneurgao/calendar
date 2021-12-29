@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
 
 import './App.css';
-import { CalendarEvent, WeekNavigator, WeekView } from './calendar';
+import { CalendarEvent, CalendarUtils, WeekNavigator, WeekView } from './calendar';
 import AppNavbar from './common/components/app-navbar';
-import CalendarUtils from './calendar/services/calendar-utils';
 import EventService from './events/event-service';
 
 const App: React.FC = () => {
