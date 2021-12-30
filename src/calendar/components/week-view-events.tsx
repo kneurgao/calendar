@@ -25,6 +25,10 @@ const WeekViewEvents: React.FC<{
                 bgcolor: '#039be5',
                 position: 'absolute',
                 marginBottom: '2px',
+                cursor: 'pointer',
+                ':hover': {
+                  zIndex: 2,
+                },
                 ...eventElement.style,
               }}
             >
