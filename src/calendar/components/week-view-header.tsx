@@ -18,7 +18,7 @@ const WeekViewHeader: React.FC = () => {
         background: '#fff',
         top: 64,
         marginTop: 8,
-        zIndex: 3,
+        zIndex: 4,
         overflow: 'hidden',
       }}
     >
