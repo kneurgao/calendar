@@ -26,6 +26,7 @@ const WeekViewEvents: React.FC<{
                 position: 'absolute',
                 marginBottom: '2px',
                 cursor: 'pointer',
+                overflow: 'hidden',
                 ':hover': {
                   zIndex: 2,
                 },
