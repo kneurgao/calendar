@@ -1,15 +1,7 @@
 import React from 'react';
 
-interface Week {
-  week: Date[];
-  setWeek: (week: Date[]) => void;
-}
-
-const WeekContext = React.createContext<Week>({
+const WeekContext = React.createContext<{ week: Date[] }>({
   week: [],
-  setWeek: () => {
-    // Default
-  },
 });
 
 export default WeekContext;

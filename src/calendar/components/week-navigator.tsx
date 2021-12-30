@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Grid, Typography } from '@mui/material';
 import {
@@ -14,12 +14,6 @@ const WeekNavigator: React.FC<{
   firstDayOfWeek: Date;
   onChange: (firstDayOfWeek: Date) => void;
 }> = ({ firstDayOfWeek, onChange }) => {
-  const [title, setTitle] = useState('');
-
-  useEffect(() => {
-    setTitle(CalendarUtils.getMonthName(firstDayOfWeek));
-  }, [firstDayOfWeek]);
-
   const gotoCurrentWeek = () => {
     onChange(CalendarUtils.getFirstDayOfWeek());
   };
@@ -56,10 +50,10 @@ const WeekNavigator: React.FC<{
           </ActionButton>
         </Grid>
 
-        {/* Month(s) name */}
+        {/* Show month(s) name */}
         <Grid item>
           <Typography variant={'h6'} sx={{ padding: '4px', fontWeight: 400 }}>
-            {title}
+            {CalendarUtils.getMonthName(firstDayOfWeek)}
           </Typography>
         </Grid>
       </Grid>

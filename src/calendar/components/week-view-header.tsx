@@ -49,7 +49,7 @@ const WeekViewHeader: React.FC = () => {
                 fontSize: 12,
                 textAlign: 'center',
                 color: 'gray',
-                textTransform: 'uppercase'
+                textTransform: 'uppercase',
               }}
             >
               {CalendarUtils.getWeekday(weekday)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import WeekViewHeader from './week-view-header';
 import WeekViewBody from './week-view-body';
@@ -11,14 +11,10 @@ const WeekView: React.FC<{ firstDayOfWeek: Date; events: CalendarEvent[] }> = ({
   firstDayOfWeek,
   events,
 }) => {
-  const [week, setWeek] = useState<Date[]>([]);
-
-  useEffect(() => {
-    setWeek(CalendarUtils.getWeekByFirstDay(firstDayOfWeek));
-  }, [firstDayOfWeek]);
-
   return (
-    <WeekContext.Provider value={{ week, setWeek }}>
+    <WeekContext.Provider
+      value={{ week: CalendarUtils.getWeekByFirstDay(firstDayOfWeek) }}
+    >
       <WeekViewHeader></WeekViewHeader>
       <EventsContext.Provider value={{ events }}>
         <WeekViewBody></WeekViewBody>

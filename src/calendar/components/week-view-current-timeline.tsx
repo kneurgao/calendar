@@ -6,7 +6,7 @@ import CalendarUtils from '../services/calendar-utils';
 
 const WeekViewCurrentTimeline: React.FC = () => {
   const [currentTimeline, setCurrentTimeline] = useState<number>(0);
-  let timelineRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Calculate position of timeline
@@ -28,12 +28,10 @@ const WeekViewCurrentTimeline: React.FC = () => {
   useEffect(() => {
     if (currentTimeline) {
       timelineRef.current?.scrollIntoView({
-        block: 'end',
-        inline: 'nearest',
         behavior: 'smooth',
       });
     }
-  });
+  }, [currentTimeline]);
 
   return (
     <Paper

@@ -7,8 +7,8 @@ import EventsContext from '../contexts/events-context';
 import WeekViewEvents from './week-view-events';
 import WeekViewCurrentTimeline from './week-view-current-timeline';
 import CalendarUtils from '../services/calendar-utils';
+import EventUtils from '../services/event-utils';
 import { EventElement } from '../models/event-element';
-import { IndexedCalendarEvent } from '../../events/db/calendar-db';
 import WeekViewConstants from '../constants/week-view-constants';
 
 const WeekViewContent: React.FC = () => {
@@ -18,59 +18,10 @@ const WeekViewContent: React.FC = () => {
     useState<Map<number, EventElement[]>>();
 
   useEffect(() => {
-    const eventElementMap = events.reduce<Map<number, EventElement[]>>(
-      (map, event) => {
-        const eventDate = new Date(event.startTime).getDate();
-        let existingEventElements = map.get(eventDate);
-        if (!existingEventElements) {
-          existingEventElements = [];
-          map.set(eventDate, existingEventElements);
-        }
-        existingEventElements.push(getEventElement(event));
-        return map;
-      },
-      new Map<number, EventElement[]>()
-    );
-    setDateWiseEventElements(eventElementMap);
+    if (events?.length > 0) {
+      setDateWiseEventElements(EventUtils.groupByDate(events));
+    }
   }, [events]);
-
-  const getEventElement = (event: IndexedCalendarEvent): EventElement => {
-    const durationInMins = CalendarUtils.getDiffInMinutes(
-      new Date(event.startTime),
-      new Date(event.endTime)
-    );
-    const timeSinceMidnight = CalendarUtils.getMinutesSinceMidnight(
-      new Date(event.startTime)
-    );
-
-    const textStyle =
-      durationInMins > 15
-        ? {
-            fontSize: 12,
-            fontWeight: 500,
-            lineHeight: 1.5,
-          }
-        : {
-            fontSize: 10,
-            fontWeight: 400,
-            lineHeight: 1.1,
-          };
-    return {
-      title: event.title,
-      time:
-        CalendarUtils.getTime(new Date(event.startTime)) +
-        ' - ' +
-        CalendarUtils.getTime(new Date(event.endTime)),
-      elevation: event.level > 1 ? 3 : 1,
-      style: {
-        width: !event.overlapCount ? 135 : 100 - (event.level - 1) * 15,
-        height: Math.max((40 / 60) * durationInMins, 10),
-        marginLeft: (event.level - 1) * 5,
-        marginTop: (5 / 60) * timeSinceMidnight,
-      },
-      textStyle,
-    } as EventElement;
-  };
 
   return (
     <>
@@ -88,9 +39,11 @@ const WeekViewContent: React.FC = () => {
             )}
 
             {/* List events */}
-            <WeekViewEvents
-              eventElements={dateWiseEventElements?.get(weekday.getDate())}
-            ></WeekViewEvents>
+            {dateWiseEventElements?.has(weekday.getDate()) && (
+              <WeekViewEvents
+                eventElements={dateWiseEventElements.get(weekday.getDate())}
+              ></WeekViewEvents>
+            )}
 
             {/* Show hour slots for a week day */}
             {CalendarUtils.get24HourSlots().map((hour) => {
