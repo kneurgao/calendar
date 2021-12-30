@@ -39,7 +39,7 @@ const WeekViewCurrentTimeline: React.FC = () => {
       sx={{
         bgcolor: '#ea4335',
         position: 'absolute',
-        zIndex: 2,
+        zIndex: 3,
         width: '11%',
         height: '2px',
         marginLeft: '2px',
